@@ -46,27 +46,7 @@
             </div>
         </x-modal>
 
-        <x-modal name="qr-modal" :show="$errors->isNotEmpty()" focusable>
-            <div class="p-6">
-                
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Session QR
-                </p>
-
-                <div class="flex items-center justify-center">
-                    <img class="p-4 " src="https://hexdocs.pm/qr_code/2.2.1/docs/qrcode.svg" alt="">
-
-                </div>
-            
-                
-                
-                <div class="mt-6 flex justify-end">
-                    <x-secondary-button x-on:click="$dispatch('close')">
-                        {{ __('Close') }}
-                    </x-secondary-button>
-                </div>
-            </div>
-        </x-modal>
+        
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 text-white">
             <div class="justify-between flex w-full py-4">
@@ -88,7 +68,6 @@
                     <th>Time</th>
                     <th>QR</th>
                 </tr>
-                
                 @foreach ($sessions as $session)
                     <tr>
                         <td>{{ $session->id }}</td>
@@ -96,13 +75,12 @@
                         <td>{{ $session->teacher_id }}</td>
                         <td>{{ $session->created_at->format('d M Y, l') }}</td>
                         <td>
-                            <a href="/attendance/check/{{ Crypt::encryptString($session->id) }}">lestry this link</a>
                             {{ $session->created_at->format('H:i:s') }}
                         </td>
                         <td class="grid">
                             <x-primary-button 
                             x-data=""
-                            x-on:click.prevent="$dispatch('open-modal', 'qr-modal')">
+                            x-on:click.prevent="$dispatch('open-modal', 'qr-modal-{{ $session->id }}')">
                                 Open
                             </x-primary-button>
                         </td>
@@ -110,5 +88,31 @@
                 @endforeach
             </table>
         </div>
+
+        @foreach($sessions as $session)
+        @php
+            $qr_link = url("/attendance/check/" . Crypt::encryptString($session->id));
+        @endphp
+            <x-modal name="qr-modal-{{ $session->id }}" :show="false" focusable>
+                <div class="p-6">
+
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                        Session QR
+                    </p>
+                
+                    <div class="flex items-center justify-center">
+                        <img src="data:image/svg+xml;base64, {{ base64_encode(QrCode::size(256)->generate($qr_link)) }}">
+                    </div>
+                
+
+
+                    <div class="mt-6 flex justify-end">
+                        <x-secondary-button x-on:click="$dispatch('close')">
+                            {{ __('Close') }}
+                        </x-secondary-button>
+                    </div>
+                </div>
+            </x-modal>
+        @endforeach
     </div>
 </x-app-layout>

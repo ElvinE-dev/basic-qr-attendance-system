@@ -13,7 +13,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard', ['attendances' => Attendance::all()]);
+    return view('dashboard', ['attendances' => Attendance::where('user_id', auth()->id())->get()]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/sessions', function () {

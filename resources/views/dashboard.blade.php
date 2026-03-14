@@ -15,6 +15,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 text-white">
+            <h1 class="py-4 font-bold text-2xl">Your Attendances</h1>
             <table class="w-full bg-gray-800 ">
                 <tr>
                     <th>Attendance Id</th>
@@ -30,7 +31,7 @@
                         <td>{{ $attendance->id }}</td>
                         <td>{{ $attendance->user_id }}</td>
                         <td>{{ $attendance->student_name }}</td>
-                        <td>Math 1</td>
+                        <td>{{ $attendance->teachingSession->name }}</td>
                         <td>{{ $attendance->created_at->format('d M Y, l') }}</td>
                         <td>{{ $attendance->created_at->format('H:i:s') }}</td>
                     </tr>

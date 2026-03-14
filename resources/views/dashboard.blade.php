@@ -20,6 +20,7 @@
                     <th>Attendance Id</th>
                     <th>User Id</th>
                     <th>Student Name</th>
+                    <th>Session</th>
                     <th>Day</th>
                     <th>Time</th>
                 </tr>
@@ -29,6 +30,7 @@
                         <td>{{ $attendance->id }}</td>
                         <td>{{ $attendance->user_id }}</td>
                         <td>{{ $attendance->student_name }}</td>
+                        <td>Math 1</td>
                         <td>{{ $attendance->created_at->format('d M Y, l') }}</td>
                         <td>{{ $attendance->created_at->format('H:i:s') }}</td>
                     </tr>
